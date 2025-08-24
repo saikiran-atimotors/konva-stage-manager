@@ -8,11 +8,11 @@ const initialCanvasState: CanvasState = {
   stagingAreas: [
     {
       id: 'area-1',
-      name: 'Main Staging Area',
-      rows: 8,
-      columns: 12,
-      cellSize: { width: 80, height: 80 },
-      position: { x: 50, y: 50 },
+      name: 'Staging Area A',
+      rows: 6,
+      columns: 10,
+      cellSize: { width: 90, height: 70 },
+      position: { x: 100, y: 80 },
       color: '#3B82F6',
       materials: []
     }

@@ -93,7 +93,7 @@ export const MaterialObject: React.FC<MaterialObjectProps> = ({
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onMouseEnter={(e) => {
-        e.target.getStage()!.container().style.cursor = 'pointer';
+        e.target.getStage()!.container().style.cursor = 'grab';
       }}
       onMouseLeave={(e) => {
         e.target.getStage()!.container().style.cursor = 'default';
@@ -102,82 +102,112 @@ export const MaterialObject: React.FC<MaterialObjectProps> = ({
       {/* Selection Indicator */}
       {isSelected && (
         <Rect
-          x={-(material.size?.width || 60) / 2 - 5}
-          y={-(material.size?.height || 40) / 2 - 5}
-          width={(material.size?.width || 60) + 10}
-          height={(material.size?.height || 40) + 10}
+          x={-(material.size?.width || 70) / 2 - 8}
+          y={-(material.size?.height || 50) / 2 - 8}
+          width={(material.size?.width || 70) + 16}
+          height={(material.size?.height || 50) + 16}
           stroke="#3B82F6"
           strokeWidth={3}
-          cornerRadius={8}
-          shadowBlur={8}
+          cornerRadius={12}
+          shadowBlur={12}
           shadowColor="#3B82F6"
-          shadowOpacity={0.4}
+          shadowOpacity={0.3}
+          fill="rgba(59, 130, 246, 0.05)"
         />
       )}
       
       {/* Material Body */}
       <Rect
-        x={-(material.size?.width || 60) / 2}
-        y={-(material.size?.height || 40) / 2}
-        width={material.size?.width || 60}
-        height={material.size?.height || 40}
+        x={-(material.size?.width || 70) / 2}
+        y={-(material.size?.height || 50) / 2}
+        width={material.size?.width || 70}
+        height={material.size?.height || 50}
         fill={material.color || statusColor}
         stroke="#FFFFFF"
-        strokeWidth={2}
-        cornerRadius={6}
-        shadowBlur={5}
-        shadowColor="rgba(0, 0, 0, 0.2)"
-        shadowOffsetX={2}
-        shadowOffsetY={2}
-        opacity={0.9}
+        strokeWidth={3}
+        cornerRadius={8}
+        shadowBlur={8}
+        shadowColor="rgba(0, 0, 0, 0.15)"
+        shadowOffsetX={0}
+        shadowOffsetY={4}
+        opacity={0.95}
       />
       
       {/* Material Name */}
       <Text
-        x={-(material.size?.width || 60) / 2 + 5}
-        y={-(material.size?.height || 40) / 2 + 5}
+        x={-(material.size?.width || 70) / 2 + 8}
+        y={-(material.size?.height || 50) / 2 + 8}
         text={material.name}
-        fontSize={10}
+        fontSize={11}
         fontFamily="Inter, sans-serif"
-        fontStyle="bold"
+        fontStyle="600"
         fill="#FFFFFF"
-        width={(material.size?.width || 60) - 10}
+        width={(material.size?.width || 70) - 16}
         align="center"
-        wrap="none"
+        wrap="word"
+        ellipsis
+      />
+      
+      {/* Material Type */}
+      <Text
+        x={-(material.size?.width || 70) / 2 + 8}
+        y={-(material.size?.height || 50) / 2 + 22}
+        text={material.type}
+        fontSize={8}
+        fontFamily="Inter, sans-serif"
+        fill="rgba(255, 255, 255, 0.8)"
+        width={(material.size?.width || 70) - 16}
+        align="center"
         ellipsis
       />
       
       {/* Quantity Badge */}
       <Circle
-        x={(material.size?.width || 60) / 2 - 10}
-        y={-(material.size?.height || 40) / 2 + 10}
-        radius={8}
+        x={(material.size?.width || 70) / 2 - 12}
+        y={-(material.size?.height || 50) / 2 + 12}
+        radius={10}
         fill="#FFFFFF"
         stroke={statusColor}
         strokeWidth={2}
+        shadowBlur={4}
+        shadowColor="rgba(0, 0, 0, 0.1)"
       />
       
       <Text
-        x={(material.size?.width || 60) / 2 - 10 - 5}
-        y={-(material.size?.height || 40) / 2 + 10 - 4}
+        x={(material.size?.width || 70) / 2 - 12 - 6}
+        y={-(material.size?.height || 50) / 2 + 12 - 5}
         text={material.quantity.toString()}
-        fontSize={8}
+        fontSize={9}
         fontFamily="Inter, sans-serif"
-        fontStyle="bold"
+        fontStyle="700"
         fill={statusColor}
-        width={10}
+        width={12}
         align="center"
       />
       
-      {/* Status Indicator */}
+      {/* Status Indicator Bar */}
       <Rect
-        x={-(material.size?.width || 60) / 2}
-        y={(material.size?.height || 40) / 2 - 4}
-        width={material.size?.width || 60}
-        height={4}
+        x={-(material.size?.width || 70) / 2}
+        y={(material.size?.height || 50) / 2 - 6}
+        width={material.size?.width || 70}
+        height={6}
         fill={statusColor}
-        cornerRadius={[0, 0, 6, 6]}
+        cornerRadius={[0, 0, 8, 8]}
+        opacity={0.9}
       />
+      
+      {/* Barcode/ID */}
+      {material.barcode && (
+        <Text
+          x={-(material.size?.width || 70) / 2 + 4}
+          y={(material.size?.height || 50) / 2 - 18}
+          text={material.barcode}
+          fontSize={7}
+          fontFamily="Inter, sans-serif"
+          fontStyle="500"
+          fill="rgba(255, 255, 255, 0.7)"
+        />
+      )}
     </Group>
   );
 };

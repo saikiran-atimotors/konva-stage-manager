@@ -41,29 +41,39 @@ export const GridSystem: React.FC<GridSystemProps> = ({
     <Group x={position.x} y={position.y}>
       {/* Area Background */}
       <Rect
-        x={0}
-        y={0}
-        width={totalWidth}
-        height={totalHeight}
-        fill="rgba(255, 255, 255, 0.8)"
-        stroke="#D1D5DB"
+        x={-20}
+        y={-50}
+        width={totalWidth + 40}
+        height={totalHeight + 70}
+        fill="rgba(248, 250, 252, 0.95)"
+        stroke="#CBD5E1"
         strokeWidth={2}
-        cornerRadius={8}
-        shadowBlur={10}
-        shadowColor="rgba(0, 0, 0, 0.1)"
-        shadowOffsetX={2}
-        shadowOffsetY={2}
+        cornerRadius={12}
+        shadowBlur={15}
+        shadowColor="rgba(0, 0, 0, 0.08)"
+        shadowOffsetX={0}
+        shadowOffsetY={4}
       />
 
       {/* Area Title */}
       <Text
-        x={10}
-        y={-30}
+        x={0}
+        y={-35}
         text={name}
-        fontSize={16}
+        fontSize={18}
         fontFamily="Inter, sans-serif"
-        fontStyle="bold"
-        fill="#374151"
+        fontStyle="600"
+        fill="#1E293B"
+      />
+      
+      {/* Area Info */}
+      <Text
+        x={0}
+        y={-15}
+        text={`${rows}×${columns} Grid • ${materials.length} Materials`}
+        fontSize={12}
+        fontFamily="Inter, sans-serif"
+        fill="#64748B"
       />
 
       {/* Grid Cells */}
@@ -77,34 +87,42 @@ export const GridSystem: React.FC<GridSystemProps> = ({
             <Group key={`cell-${row}-${col}`}>
               {/* Cell Background */}
               <Rect
-                x={x + 1}
-                y={y + 1}
-                width={cellSize.width - 2}
-                height={cellSize.height - 2}
-                fill={getCellColor(row, col)}
-                stroke="#E5E7EB"
-                strokeWidth={1}
-                opacity={material ? 0.3 : 0.1}
+                x={x + 2}
+                y={y + 2}
+                width={cellSize.width - 4}
+                height={cellSize.height - 4}
+                fill={material ? "rgba(59, 130, 246, 0.05)" : "rgba(255, 255, 255, 0.8)"}
+                stroke={material ? "#3B82F6" : "#E2E8F0"}
+                strokeWidth={material ? 2 : 1}
+                cornerRadius={6}
+                opacity={material ? 0.8 : 0.6}
                 onClick={() => onCellClick(row, col)}
                 onMouseEnter={(e) => {
-                  e.target.opacity(material ? 0.5 : 0.2);
-                  e.target.getLayer()?.batchDraw();
+                  const target = e.target as any;
+                  target.fill(material ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.03)");
+                  target.stroke("#3B82F6");
+                  target.strokeWidth(2);
+                  target.getLayer()?.batchDraw();
                 }}
                 onMouseLeave={(e) => {
-                  e.target.opacity(material ? 0.3 : 0.1);
-                  e.target.getLayer()?.batchDraw();
+                  const target = e.target as any;
+                  target.fill(material ? "rgba(59, 130, 246, 0.05)" : "rgba(255, 255, 255, 0.8)");
+                  target.stroke(material ? "#3B82F6" : "#E2E8F0");
+                  target.strokeWidth(material ? 2 : 1);
+                  target.getLayer()?.batchDraw();
                 }}
               />
               
-              {/* Cell Coordinates (for debugging) */}
-              {/* <Text
-                x={x + 5}
-                y={y + 5}
-                text={`${row},${col}`}
-                fontSize={10}
-                fill="#9CA3AF"
-                fontFamily="monospace"
-              /> */}
+              {/* Cell Grid Reference */}
+              <Text
+                x={x + 4}
+                y={y + 4}
+                text={`${String.fromCharCode(65 + row)}${col + 1}`}
+                fontSize={9}
+                fill="#94A3B8"
+                fontFamily="Inter, sans-serif"
+                fontStyle="500"
+              />
             </Group>
           );
         })
@@ -116,9 +134,9 @@ export const GridSystem: React.FC<GridSystemProps> = ({
         <Line
           key={`v-line-${i}`}
           points={[i * cellSize.width, 0, i * cellSize.width, totalHeight]}
-          stroke="#E5E7EB"
-          strokeWidth={1}
-          opacity={0.5}
+          stroke="#CBD5E1"
+          strokeWidth={i === 0 || i === columns ? 2 : 1}
+          opacity={0.6}
         />
       ))}
       
@@ -127,9 +145,9 @@ export const GridSystem: React.FC<GridSystemProps> = ({
         <Line
           key={`h-line-${i}`}
           points={[0, i * cellSize.height, totalWidth, i * cellSize.height]}
-          stroke="#E5E7EB"
-          strokeWidth={1}
-          opacity={0.5}
+          stroke="#CBD5E1"
+          strokeWidth={i === 0 || i === rows ? 2 : 1}
+          opacity={0.6}
         />
       ))}
     </Group>
